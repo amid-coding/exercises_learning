@@ -67,7 +67,7 @@ bool verb() {
 
 
 bool conjuction(string str) {
-    vector<string> conjuctions_list {"rules", "fly", "swim"};
+    vector<string> conjuctions_list {"and", "or", "but"};
 
     bool present = false;
 
@@ -82,10 +82,9 @@ bool conjuction(string str) {
 
 void sentence() {
     bool first_word_okay = noun();
-
     if (first_word_okay == false) {
         cout << "not OK!\n";
-        cout << "a noun is needed here!\n";
+        cout << "a noun is needed first!\n";
         return;
     }
     else {
@@ -93,12 +92,30 @@ void sentence() {
 
         if (second_word_okay == false) {
             cout << "not OK!\n";
-            cout << "a verb is needed here!\n";
+            cout << "a verb is needed second!\n";
             return;
         }
         else {
-            cout << "We are okay for now. Noun and verb seen\n";
-            return;
+            //check for full-stop or conjuction
+            string next_string = get_string();
+            if (next_string == ".") {
+                cout << "OK!\n";
+                cout << "Sentence condition satisfied.\n";
+                return;
+            }
+            else {
+                //check whether it's a conjuction or not
+                bool its_a_conjuction = conjuction(next_string);
+
+                if (its_a_conjuction) {
+                    sentence();
+                }
+                else {
+                    cout << "not OK!\n";
+                    cout << "a conjuction is needed to join to sentences!\n";
+                    return;
+                }
+            }
         }
     }
 }
