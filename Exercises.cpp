@@ -3,32 +3,68 @@
 
 #include "std_lib_facilities.h"
 
-bool noun(string str) {
+string get_string() {
+    string input;
+    cin >> input;
+    return input;
+}
+
+//bool noun(string str) {
+//    vector<string> nouns_list {"birds", "fish", "C++"};
+//    bool present = false;
+//
+//    for (int i = 0; i < nouns_list.size(); ++i) {
+//        if (str == nouns_list[i]) {
+//            present = true;
+//            break;
+//        }
+//    }
+//    return present;
+//}
+
+
+//bool verb(string str) {
+//    vector<string> verbs_list {"rules", "fly", "swim"};
+//
+//    bool present = false;
+//
+//    for (int i = 0; i < verbs_list.size(); ++i) {
+//        if (str == verbs_list[i]) {
+//            present = true;
+//            break;
+//        }
+//    }
+//    return present;
+//}
+
+bool noun() {
     vector<string> nouns_list {"birds", "fish", "C++"};
-    bool present = false;
+
+    string first_word = get_string();
 
     for (int i = 0; i < nouns_list.size(); ++i) {
-        if (str == nouns_list[i]) {
-            present = true;
+        if (first_word == nouns_list[i]) {
+            return true;
             break;
         }
     }
-    return present;
+    return false;
 }
 
-bool verb(string str) {
+bool verb() {
     vector<string> verbs_list {"rules", "fly", "swim"};
 
-    bool present = false;
+    string word = get_string();
 
     for (int i = 0; i < verbs_list.size(); ++i) {
-        if (str == verbs_list[i]) {
-            present = true;
+        if (word == verbs_list[i]) {
+            return true;
             break;
         }
     }
-    return present;
+    return false;
 }
+
 
 bool conjuction(string str) {
     vector<string> conjuctions_list {"rules", "fly", "swim"};
@@ -44,85 +80,104 @@ bool conjuction(string str) {
     return present;
 }
 
-//bool sentence(string str) {
-//
-//}
+void sentence() {
+    bool first_word_okay = noun();
 
-
-
-void check_text(string input) {
-
-    vector<string> input_parts;
-
-    bool sentence_complete = false;
-
-    //loop through the input and get the individual parts in a vector
-    string part = "";
-    if (input.size() > 0) {
-        for (int i = 0; i < input.size(); ++i) {
-            if (input[i] == '.') {
-                if (input[i - 1] == ' ') { 
-                    sentence_complete = true; 
-                    break; 
-                }
-                else {
-                    cout << "Sentence contains premature full-stop!\n";
-                    return;
-                }
-            }
-
-            if (input[i] == ' ') {
-                input_parts.push_back(part);
-                part = "";
-            }
-            else {
-                part.push_back(input[i]);
-            }
-        }
-
-        if (sentence_complete == 1) {
-            cout << "Yes, sentence complete\n";
-
-            //look for Noun first
-            bool noun_present = noun(input_parts[0]);
-            if (noun_present == true) {
-                //continue next test
-
-            }
-            else {
-                cout << "not OK!";
-            }
-
-            for (int i = 0; i < input_parts.size(); ++i) {
-                
-            }
-
-
-            //the a verb
-
-            /*then a full-stop (preceeded by ' '),
-                else look for a conjuction*/
-
-
-        }
-        else {
-            cout << "No, sentence not complete\n";
-        }
-
+    if (first_word_okay == false) {
+        cout << "not OK!\n";
+        cout << "a noun is needed here!\n";
+        return;
     }
     else {
-        cout << "You did not input any text\n";
+        bool second_word_okay = verb();
+
+        if (second_word_okay == false) {
+            cout << "not OK!\n";
+            cout << "a verb is needed here!\n";
+            return;
+        }
+        else {
+            cout << "We are okay for now. Noun and verb seen\n";
+            return;
+        }
     }
-
-   /* for (string part : input_parts) {
-        cout << part << ", ";
-    }*/
-
-
-   
-
-
 }
+
+
+
+//void check_text(string input) {
+//
+//    vector<string> input_parts;
+//
+//    bool sentence_complete = false;
+//
+//    //loop through the input and get the individual parts in a vector
+//    string part = "";
+//    if (input.size() > 0) {
+//        for (int i = 0; i < input.size(); ++i) {
+//            if (input[i] == '.') {
+//                if (input[i - 1] == ' ') { 
+//                    sentence_complete = true; 
+//                    break; 
+//                }
+//                else {
+//                    cout << "Sentence contains premature full-stop!\n";
+//                    return;
+//                }
+//            }
+//
+//            if (input[i] == ' ') {
+//                input_parts.push_back(part);
+//                part = "";
+//            }
+//            else {
+//                part.push_back(input[i]);
+//            }
+//        }
+//
+//        if (sentence_complete == 1) {
+//            cout << "Yes, sentence complete\n";
+//
+//            //look for Noun first
+//            bool noun_present = noun(input_parts[0]);
+//            if (noun_present == true) {
+//                //continue next test
+//
+//            }
+//            else {
+//                cout << "not OK!";
+//            }
+//
+//            for (int i = 0; i < input_parts.size(); ++i) {
+//                
+//            }
+//
+//
+//            //the a verb
+//
+//            /*then a full-stop (preceeded by ' '),
+//                else look for a conjuction*/
+//
+//
+//        }
+//        else {
+//            cout << "No, sentence not complete\n";
+//        }
+//
+//    }
+//    else {
+//        cout << "You did not input any text\n";
+//    }
+//
+//   /* for (string part : input_parts) {
+//        cout << part << ", ";
+//    }*/
+//
+//
+//   
+//
+//
+//}
 
 
 int main()
@@ -132,13 +187,18 @@ try {
     vector<string> nouns_list {"birds", "fish", "C++"};
     vector<string> conjuction_list {"and", "or", "but"};*/
 
-    cout << "Eter the text you want to test: \n";
+    cout << "Enter the text you want to test: \n";
     cout << ">> ";
 
-    string input_text;
-    getline(cin, input_text);
+    sentence();
 
-    check_text(input_text);
+    
+
+
+    //string input_text;
+    //getline(cin, input_text);
+
+    //check_text(input_text);
 
     
 
