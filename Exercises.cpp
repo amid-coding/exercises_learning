@@ -3,167 +3,152 @@
 
 #include "std_lib_facilities.h"
 
-//for (int i = 0; i < names.size(); ++i) {
-//    if (name == names[i]) {
-//        string errorMsg = name + " exists already!";
-//        error(errorMsg);
-//        //error("Duplicate name");
-//    }
-//    names.push_back(name);
-//    cin >> score;
-//    scores.push_back(score);
+bool noun(string str) {
+    vector<string> nouns_list {"birds", "fish", "C++"};
+    bool present = false;
+
+    for (int i = 0; i < nouns_list.size(); ++i) {
+        if (str == nouns_list[i]) {
+            present = true;
+            break;
+        }
+    }
+    return present;
+}
+
+bool verb(string str) {
+    vector<string> verbs_list {"rules", "fly", "swim"};
+
+    bool present = false;
+
+    for (int i = 0; i < verbs_list.size(); ++i) {
+        if (str == verbs_list[i]) {
+            present = true;
+            break;
+        }
+    }
+    return present;
+}
+
+bool conjuction(string str) {
+    vector<string> conjuctions_list {"rules", "fly", "swim"};
+
+    bool present = false;
+
+    for (int i = 0; i < conjuctions_list.size(); ++i) {
+        if (str == conjuctions_list[i]) {
+            present = true;
+            break;
+        }
+    }
+    return present;
+}
+
+//bool sentence(string str) {
+//
 //}
 
-//void add_input(string name, int score) {
-//    vector<string> names;
-//    vector<int> scores;
-//
-//    int score;
-//
-//    for (string name; cin >> name; ) {
-//        if (name == "noname") break;
-//        if (names.size() < 1) {
-//            names.push_back(name);
-//            cin >> score;
-//            scores.push_back(score);
-//        }
-//        else {
-//
-//            for (int i = 0; i < names.size(); ++i) {
-//                if (name == names[i]) {
-//                    string errMsg = name + " already exists!";
-//                    error(errMsg);
-//                }
-//            }
-//
-//            names.push_back(name);
-//            cin >> score;
-//            scores.push_back(score);
-//
-//        }
-//
-//    }
-//}
+
+
+void check_text(string input) {
+
+    vector<string> input_parts;
+
+    bool sentence_complete = false;
+
+    //loop through the input and get the individual parts in a vector
+    string part = "";
+    if (input.size() > 0) {
+        for (int i = 0; i < input.size(); ++i) {
+            if (input[i] == '.') {
+                if (input[i - 1] == ' ') { 
+                    sentence_complete = true; 
+                    break; 
+                }
+                else {
+                    cout << "Sentence contains premature full-stop!\n";
+                    return;
+                }
+            }
+
+            if (input[i] == ' ') {
+                input_parts.push_back(part);
+                part = "";
+            }
+            else {
+                part.push_back(input[i]);
+            }
+        }
+
+        if (sentence_complete == 1) {
+            cout << "Yes, sentence complete\n";
+
+            //look for Noun first
+            bool noun_present = noun(input_parts[0]);
+            if (noun_present == true) {
+                //continue next test
+
+            }
+            else {
+                cout << "not OK!";
+            }
+
+            for (int i = 0; i < input_parts.size(); ++i) {
+                
+            }
+
+
+            //the a verb
+
+            /*then a full-stop (preceeded by ' '),
+                else look for a conjuction*/
+
+
+        }
+        else {
+            cout << "No, sentence not complete\n";
+        }
+
+    }
+    else {
+        cout << "You did not input any text\n";
+    }
+
+   /* for (string part : input_parts) {
+        cout << part << ", ";
+    }*/
+
+
+   
+
+
+}
 
 
 int main()
 try {
+    /*
+    vector<string> verbs_list {"rules", "fly", "swim"};
+    vector<string> nouns_list {"birds", "fish", "C++"};
+    vector<string> conjuction_list {"and", "or", "but"};*/
 
-    vector<string> names;
-    vector<int> scores;
+    cout << "Eter the text you want to test: \n";
+    cout << ">> ";
 
-    string input;
+    string input_text;
+    getline(cin, input_text);
 
-    cout << "Please enter name and score in succession: \n";
-
-    int score;
-
-    for (string name; cin >> name; ) {
-        if (name == "noname") {
-            if (cin) cin >> score;
-            break;
-        };
-        if (names.size() < 1) {
-            names.push_back(name);
-            cin >> score;
-            scores.push_back(score);  
-        }
-        else {
-
-            for (int i = 0; i < names.size(); ++i) {
-                if (name == names[i]) {
-                    string errMsg = name + " already exists!";
-                    error(errMsg);
-                }
-            }
-       
-            names.push_back(name);
-            cin >> score;
-            scores.push_back(score);
-
-        }
-   
-    }
-
-    for (int i=0; i < names.size(); ++i) {
-        cout << names[i] << ": " << scores[i] << '\n';
-    }
-
-    cout << '\n';
-    cout << "===================================" << '\n';
-    cout << '\n';
+    check_text(input_text);
 
     
-    cout << "You can now look up anything from your input\n";
-    cout << "What are you looking for?: ";
 
-
-    cin >> input;
-    while (cin) {
-        if (input == "quit") break;
-
-        cout << "output: " << input << '\n';
-        bool input_is_integer = true;
-        //check whether the input is integer or not
-        if (input.length()) {
-            for (int i = 0; i < input.length(); ++i) {
-                //cout << "input[" << i << "]: " << input[i] << '\n';
-                char current = input[i];
-
-                switch (current) {
-                case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
-                    break;
-                default:
-                    input_is_integer = false;
-                }
-            }
-        }
-        //cout << "is the input an integer?: " << input_is_integer << '\n';
-
-        if (input_is_integer) {
-            //output names with score === integer
-
-            vector<int> list;
-            for (int i = 0; i < scores.size(); ++i) {
-                string sample_num = to_string(scores[i]);
-                if (sample_num == input) {
-                    list.push_back(i);
-                }
-            }
-
-            if (list.size() > 0) {
-                for (int i = 0; i < list.size(); ++i) {
-                    cout << names[list[i]] << '\n';
-                }
-            }
-            else {
-                cout << "Score not found!\n";
-            }
-        }
-        else {
-            //output score with corresponding name
-            int result = -1;
-            for (int i = 0; i < names.size(); ++i) {
-                if (names[i] == input) {
-                    result = scores[i];
-                    break;
-                }
-            }
-            if (result == -1) {
-                cout << "Name not found!\n";
-            }
-            else {
-                cout << input << ": " << result << '\n';
-            }
-
-        }
-
-        cin >> input;
-    }
+    
 
 
 
-    return 0;
+
+
+
 
 }
 catch (exception& e) {
