@@ -1,229 +1,157 @@
 // Exercises.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+//BULLS AND COWS GAME.
+
 #include "std_lib_facilities.h"
 
-string get_string() {
-    string input;
+/*
+    THINGS TO ACHIEVE..
+
+    1) check through correct_answer, take individual integer and tally the value and location with those in user_input;
+    2) game should continue until user gets 4 cows;
+    3) make sure each input is unique;
+*/
+
+//while (cows != 4) {
+//
+//    while (cin && user_input.size() <= 4) {
+//
+//        int input;
+//        cin >> input;
+//        user_input.push_back(input);
+//    }
+//
+//    if (user_input.size() < 4) {
+//        cout << "you need more input: ";
+//        int data;
+//        cin >> data;
+//        user_input.push_back(data);
+//    }
+//    else {
+//
+//        for (int i = 0; i < correct_answer.size(); ++i) {
+//            int current_correct = correct_answer[i];
+//            int location = i;
+//
+//            for (int j = 0; j < user_input.size(); ++j) {
+//                if (user_input[j] == current_correct) {
+//                    if (j == location) ++bulls;
+//                    else ++cows;
+//                    break;
+//                }
+//            }
+//
+//        }
+//    }
+//
+//    cout << "Bulls: " << bulls << '\n';
+//    cout << "Cows: " << cows << '\n';
+//
+//    bulls = 0;
+//    cows = 0;
+//}
+
+
+int get_char() {
+    int input;
     cin >> input;
+
+    //if (input < 0 || input > 9) { //-1 means bad input
+    //    return 'x'; 
+    //}
+
+    //else {
+    //    return input;
+
+    //}
     return input;
 }
 
-//bool noun(string str) {
-//    vector<string> nouns_list {"birds", "fish", "C++"};
-//    bool present = false;
-//
-//    for (int i = 0; i < nouns_list.size(); ++i) {
-//        if (str == nouns_list[i]) {
-//            present = true;
-//            break;
-//        }
-//    }
-//    return present;
-//}
-
-
-//bool verb(string str) {
-//    vector<string> verbs_list {"rules", "fly", "swim"};
-//
-//    bool present = false;
-//
-//    for (int i = 0; i < verbs_list.size(); ++i) {
-//        if (str == verbs_list[i]) {
-//            present = true;
-//            break;
-//        }
-//    }
-//    return present;
-//}
-
-bool noun() {
-    vector<string> nouns_list {"birds", "fish", "C++"};
-
-    string first_word = get_string();
-
-    for (int i = 0; i < nouns_list.size(); ++i) {
-        if (first_word == nouns_list[i]) {
-            return true;
-            break;
-        }
-    }
-    return false;
-}
-
-bool verb() {
-    vector<string> verbs_list {"rules", "fly", "swim"};
-
-    string word = get_string();
-
-    for (int i = 0; i < verbs_list.size(); ++i) {
-        if (word == verbs_list[i]) {
-            return true;
-            break;
-        }
-    }
-    return false;
-}
-
-
-bool conjuction(string str) {
-    vector<string> conjuctions_list {"and", "or", "but"};
-
-    bool present = false;
-
-    for (int i = 0; i < conjuctions_list.size(); ++i) {
-        if (str == conjuctions_list[i]) {
-            present = true;
-            break;
-        }
-    }
-    return present;
-}
-
-void sentence() {
-    bool first_word_okay = noun();
-    if (first_word_okay == false) {
-        cout << "not OK!\n";
-        cout << "a noun is needed first!\n";
-        return;
-    }
-    else {
-        bool second_word_okay = verb();
-
-        if (second_word_okay == false) {
-            cout << "not OK!\n";
-            cout << "a verb is needed second!\n";
-            return;
-        }
-        else {
-            //check for full-stop or conjuction
-            string next_string = get_string();
-            if (next_string == ".") {
-                cout << "OK!\n";
-                cout << "Sentence condition satisfied.\n";
-                return;
-            }
-            else {
-                //check whether it's a conjuction or not
-                bool its_a_conjuction = conjuction(next_string);
-
-                if (its_a_conjuction) {
-                    sentence();
-                }
-                else {
-                    cout << "not OK!\n";
-                    cout << "a conjuction is needed to join to sentences!\n";
-                    return;
-                }
-            }
-        }
-    }
-}
-
-
-
-//void check_text(string input) {
-//
-//    vector<string> input_parts;
-//
-//    bool sentence_complete = false;
-//
-//    //loop through the input and get the individual parts in a vector
-//    string part = "";
-//    if (input.size() > 0) {
-//        for (int i = 0; i < input.size(); ++i) {
-//            if (input[i] == '.') {
-//                if (input[i - 1] == ' ') { 
-//                    sentence_complete = true; 
-//                    break; 
-//                }
-//                else {
-//                    cout << "Sentence contains premature full-stop!\n";
-//                    return;
-//                }
-//            }
-//
-//            if (input[i] == ' ') {
-//                input_parts.push_back(part);
-//                part = "";
-//            }
-//            else {
-//                part.push_back(input[i]);
-//            }
-//        }
-//
-//        if (sentence_complete == 1) {
-//            cout << "Yes, sentence complete\n";
-//
-//            //look for Noun first
-//            bool noun_present = noun(input_parts[0]);
-//            if (noun_present == true) {
-//                //continue next test
-//
-//            }
-//            else {
-//                cout << "not OK!";
-//            }
-//
-//            for (int i = 0; i < input_parts.size(); ++i) {
-//                
-//            }
-//
-//
-//            //the a verb
-//
-//            /*then a full-stop (preceeded by ' '),
-//                else look for a conjuction*/
-//
-//
-//        }
-//        else {
-//            cout << "No, sentence not complete\n";
-//        }
-//
-//    }
-//    else {
-//        cout << "You did not input any text\n";
-//    }
-//
-//   /* for (string part : input_parts) {
-//        cout << part << ", ";
-//    }*/
-//
-//
-//   
-//
-//
-//}
 
 
 int main()
 try {
-    /*
-    vector<string> verbs_list {"rules", "fly", "swim"};
-    vector<string> nouns_list {"birds", "fish", "C++"};
-    vector<string> conjuction_list {"and", "or", "but"};*/
+    vector<int> correct_answer {1, 2, 3, 4};
+    vector<int> user_input;
 
-    cout << "Enter the text you want to test: \n";
-    cout << ">> ";
+    int bulls = 0;
+    int cows = 0;
 
-    sentence();
+    cout << "Oya make your 4 guess (range is between 0-9 for each)\n";
+
+    while (bulls < 4) {//continue with game till everything's correct
+        cout << ">> ";
+        int input = get_char();
+        //cout << "here is the input: " << input << '\n';
+
+        if (input == 'x') { //check this out later.
+            cout << "Bad input! All input must be between 0-9.\n";
+            user_input.clear();
+            bulls = 0;
+            cows = 0;
+        }
+
+        if (user_input.size() < 1) {
+            user_input.push_back(input);
+        }
+        else {
+            if (user_input.size() < 4) {
+                for (int i = 0; i < user_input.size(); ++i) { //check for uniqueness
+                    if (input == user_input[i]) {
+                        cout << "Duplicate input!.\n";
+                        user_input.clear();
+                        bulls = 0;
+                        cows = 0;
+                    }
+                }
+                user_input.push_back(input);
+            }
+            else {
+                //once complete, now tally with the answer
+                cout << "reached the end else part: " << '\n';
+                for (int i = 0; i < correct_answer.size(); ++i) {
+                    int answer_value = correct_answer[i];
+                    int answer_location = i;
+
+                    for (int j = 0; j < user_input.size(); ++j) {
+                        //cout << "here is the comparison: " << "answer value: " << answer_value << " and user_input: " << user_input[j] << '\n';
+                        //if (user_input[j] == answer_value) {
+                        if (user_input[j] == correct_answer[i]) {
+                            //cout << "inside the value comparison!\n";
+                            if (j == answer_location) {
+                                //cout << "additon to bulls!\n";
+                                ++bulls;
+                            } 
+                            else {
+                                //cout << "addition to cows!\n";
+                                ++cows;
+                            } 
+                        }
+                    }
+                }
+
+                cout << "Bulls: " << bulls << '\n';
+                cout << "Cows: " << cows << '\n';
+
+                bulls = 0;
+                cows = 0;
+            }
+        }
+
+    }
+
+
+
+
+
+
 
     
 
-
-    //string input_text;
-    //getline(cin, input_text);
-
-    //check_text(input_text);
-
     
 
     
-
-
-
-
 
 
 
