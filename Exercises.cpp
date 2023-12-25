@@ -1,157 +1,172 @@
 // Exercises.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-//BULLS AND COWS GAME.
-
 #include "std_lib_facilities.h"
 
-/*
-    THINGS TO ACHIEVE..
+class Token {
+public:
+    char kind;
+    double value;
+};
 
-    1) check through correct_answer, take individual integer and tally the value and location with those in user_input;
-    2) game should continue until user gets 4 cows;
-    3) make sure each input is unique;
-*/
+class Token_stream {
+public:
+    Token get();
+    void putback(Token t);
+private:
+    bool full {false}; //is there a token in the buffer?
+    Token buffer; // here is where we put a token put back using putback()
+};
 
-//while (cows != 4) {
-//
-//    while (cin && user_input.size() <= 4) {
-//
-//        int input;
-//        cin >> input;
-//        user_input.push_back(input);
-//    }
-//
-//    if (user_input.size() < 4) {
-//        cout << "you need more input: ";
-//        int data;
-//        cin >> data;
-//        user_input.push_back(data);
-//    }
-//    else {
-//
-//        for (int i = 0; i < correct_answer.size(); ++i) {
-//            int current_correct = correct_answer[i];
-//            int location = i;
-//
-//            for (int j = 0; j < user_input.size(); ++j) {
-//                if (user_input[j] == current_correct) {
-//                    if (j == location) ++bulls;
-//                    else ++cows;
-//                    break;
-//                }
-//            }
-//
-//        }
-//    }
-//
-//    cout << "Bulls: " << bulls << '\n';
-//    cout << "Cows: " << cows << '\n';
-//
-//    bulls = 0;
-//    cows = 0;
-//}
-
-
-int get_char() {
-    int input;
-    cin >> input;
-
-    //if (input < 0 || input > 9) { //-1 means bad input
-    //    return 'x'; 
-    //}
-
-    //else {
-    //    return input;
-
-    //}
-    return input;
+void Token_stream::putback(Token t) {
+    if (full) error("putback() into a full buffer");
+    buffer = t; //copy t to buffer
+    full = true; //buffer is now full
 }
 
+Token Token_stream::get() {
+    if (full) { // do we already have a Token ready?
+        full = false; // remove Token from buffer
+        return buffer; 
+    }
 
+    char ch;
+    cin >> ch; // >> skips whitespaces
 
-int main()
-try {
-    vector<int> correct_answer {1, 2, 3, 4};
-    vector<int> user_input;
+    switch (ch) {
+    case ';': // ';' for print
+    case 'q': // 'q' for quit
+    case '(': case ')': case '+': case '-': case '*': case '/':
+        return Token{ ch }; // let each character represent itself
 
-    int bulls = 0;
-    int cows = 0;
-
-    cout << "Oya make your 4 guess (range is between 0-9 for each)\n";
-
-    while (bulls < 4) {//continue with game till everything's correct
-        cout << ">> ";
-        int input = get_char();
-        //cout << "here is the input: " << input << '\n';
-
-        if (input == 'x') { //check this out later.
-            cout << "Bad input! All input must be between 0-9.\n";
-            user_input.clear();
-            bulls = 0;
-            cows = 0;
-        }
-
-        if (user_input.size() < 1) {
-            user_input.push_back(input);
-        }
-        else {
-            if (user_input.size() < 4) {
-                for (int i = 0; i < user_input.size(); ++i) { //check for uniqueness
-                    if (input == user_input[i]) {
-                        cout << "Duplicate input!.\n";
-                        user_input.clear();
-                        bulls = 0;
-                        cows = 0;
-                    }
-                }
-                user_input.push_back(input);
-            }
-            else {
-                //once complete, now tally with the answer
-                cout << "reached the end else part: " << '\n';
-                for (int i = 0; i < correct_answer.size(); ++i) {
-                    int answer_value = correct_answer[i];
-                    int answer_location = i;
-
-                    for (int j = 0; j < user_input.size(); ++j) {
-                        //cout << "here is the comparison: " << "answer value: " << answer_value << " and user_input: " << user_input[j] << '\n';
-                        //if (user_input[j] == answer_value) {
-                        if (user_input[j] == correct_answer[i]) {
-                            //cout << "inside the value comparison!\n";
-                            if (j == answer_location) {
-                                //cout << "additon to bulls!\n";
-                                ++bulls;
-                            } 
-                            else {
-                                //cout << "addition to cows!\n";
-                                ++cows;
-                            } 
-                        }
-                    }
-                }
-
-                cout << "Bulls: " << bulls << '\n';
-                cout << "Cows: " << cows << '\n';
-
-                bulls = 0;
-                cows = 0;
-            }
-        }
-
+    case '.':
+    case '0':case '1': case '2': case '3': case '4': 
+    case '5': case '6': case '7': case '8': case '9':
+    {
+        cin.putback(ch); //put digit back into the input stream;
+        double val;
+        cin >> val; // read a floating-point number
+        return Token{ '8', val }; // let '8' represent "a number"
+    }
+    default:
+        error("Bad token");
     }
 
 
+}
 
+Token_stream ts;
 
+double expression();
 
+double primary() {
+    Token t = ts.get();
+    while(true) {
+        switch (t.kind) {
+        case '(':
+        {
+            double d = expression();
+            t = ts.get();
+            if (t.kind != ')') error("')' expected!");
+            return d;
+        }
+        case '8':
+            return t.value;
+        default:
+            error("Primary expected!");
+        }
+    }
+}
 
+double term() {
+    double left = primary(); //look for primary
+    Token t = ts.get();
 
+    while (true) {
+        switch (t.kind) {
+        case '*':
+            left *= primary();
+            t = ts.get();
+            break;
+        case '/':
+        {
+            double primary_value = primary(); // because of this, everything is placed inside a block
+            if (primary_value == 0) error("Division by 0!");
+            left /= primary_value;
+            t = ts.get();
+            break;
+        }
+        default:
+            ts.putback(t);
+            return left;
+        }
+    }
+
+}
+
+double expression() {
+    double left = term(); //look for a term
+    Token t = ts.get(); //get the next token
+
+    while (true) {
+        switch (t.kind) {
+        case '+':
+            left += term(); //evaluate Term and add
+            t = ts.get(); // get the next token
+            break;
+        case '-':
+            left -= term();
+            t = ts.get();
+            break;
+        default:
+            ts.putback(t);
+            return left;
+        }
+    }
+}
+
+int main()
+try {
+    cout << "Enter some values: \n";
+
+    double val = 0;
+    
+    while (cin) { //as long as we are getting input through cin
+        Token t = ts.get();
+
+        if (t.kind == 'q') break; //'q' for quit
+        if (t.kind == ';') {
+            cout << "= " << val << '\n';
+        }
+        else {
+            ts.putback(t);
+            val = expression();
+        }
+        //keep_window_open();
+    }
     
 
     
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
