@@ -14,14 +14,32 @@ void print(const vector<int>& v, string s) {
     cout << " }\n";
 }
 
+void fibonacci(int x, int y, vector<int>& v, int n){
+    for (int i = 0; i < n; ++i) {
+        if (i == 0) v.push_back(x);
+        else if (i == 1) v.push_back(y);
+        else {
+            int a = i - 2;
+            int b = i - 1;
+            int next_val = v[a] + v[b];
+
+            v.push_back(next_val);
+        }
+    }
+
+    print(v, "Output");
+}
+
 
 
 int main()
 try {
     
-    vector<int> vec{2, 4, 6, 8, 1, 3, 5, 7, 9};
+    //vector<int> vec{2, 4, 6, 8, 1, 3, 5, 7, 9};
+    vector<int> fib;
 
-    print(vec, "Output");
+    //print(vec, "Output");
+    fibonacci(1, 2, fib, 7);
     
 
 
