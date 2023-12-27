@@ -30,16 +30,55 @@ void fibonacci(int x, int y, vector<int>& v, int n){
     print(v, "Output");
 }
 
+void func1(const vector<int>& v) {
+    vector<int> new_vec;
+    int n = v.size();
+    for (int i = n - 1; i >= 0; --i) {
+        new_vec.push_back(v[i]);
+    }
+    
+
+    //print(v, "Original");
+    //print(local_v, "Duplicated");
+    //print(v, "Local");
+
+    print(new_vec, "func1 result");
+}
+
+void func2(vector<int>& v) {
+    int n = v.size();
+    int first = 0;
+    int last = n - 1;
+    
+    while (first <= n / 2) {
+        swap(v[first], v[last]);
+        ++first;
+        --last;
+    }
+
+    print(v, "Output func2");
+
+}
+
 
 
 int main()
 try {
     
-    //vector<int> vec{2, 4, 6, 8, 1, 3, 5, 7, 9};
-    vector<int> fib;
+    vector<int> vec{2, 4, 6, 8, 1, 3, 5, 7, 9};
+    //vector<int> vec;
 
-    //print(vec, "Output");
-    fibonacci(1, 2, fib, 7);
+    print(vec, "Output; before");
+    //fibonacci(1, 2, vec, 45); // 45 is the max we can go for an int value
+
+    /*func1(vec);*/
+    func2(vec);
+
+    print(vec, "Output; after");
+
+
+
+
     
 
 
