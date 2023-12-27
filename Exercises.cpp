@@ -3,57 +3,25 @@
 
 #include "std_lib_facilities.h"
 
-//void swap_v(int a, int b) { 
-//    int temp; 
-//    temp = a;
-//    a = b; 
-//    b = temp; 
-//}
-//void swap_r(int& a, int& b) { int temp; temp = a; a = b; b = temp; }
-//void swap_cr(const int& a, const int& b) { int temp; temp = a; a = b; b = temp; }
+void print(const vector<int>& v, string s) {
+    cout << s << ": " << "{ ";
+    for (int i = 0; i < v.size(); ++i) {
+        cout << v[i];
+        if (i != v.size() - 1) cout << ", ";
 
+    }
 
-namespace X {
-    int var = 0;
-    void print() {
-        cout << "X's var: " << var << '\n';
-    }
+    cout << " }\n";
 }
-namespace Y {
-    int var = 0;
-    void print() {
-        cout << "Y's var: " << var << '\n';
-    }
-}
-namespace Z {
-    int var= 0;
-    void print() {
-        cout << "Z's var: " << var << '\n';
-    }
-}
+
 
 
 int main()
 try {
-    X::var = 7;
-    X::print();
+    
+    vector<int> vec{2, 4, 6, 8, 1, 3, 5, 7, 9};
 
-    using namespace Y;
-    var = 9;
-    print();
-
-    {
-        using Z::var;
-        using Z::print;
-
-        var = 11;
-        print();
-    }
-
-    print();
-    X::print();
-
-
+    print(vec, "Output");
     
 
 
@@ -77,10 +45,6 @@ try {
 
 
 
-    //int x = 7;
-    //int y = 9;
-    //swap_r(7, 9);
-    //cout << "x: " << x << " & y: " << y << '\n';
 }
 catch (exception& e) {
     cerr << "Error: " << e.what() << '\n';
